@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 
+import Layout from "./components/Layout";
 import Loader from "./components/Loader";
+import Header from "./components/Header";
 import Logo from "./components/Logo";
 import ThemeSwitch from "./components/ThemeSwitch";
+import Main from "./components/Main";
 import Filters from "./components/Filters";
 import Search from "./components/Search";
 import Regions from "./components/Regions";
@@ -33,6 +36,11 @@ function App() {
     }
   });
 
+  function formatNumber(number) {
+    const locale = navigator.language;
+    return new Intl.NumberFormat(locale).format(number);
+  }
+
   useEffect(function () {
     async function loadCountries() {
       try {
@@ -50,17 +58,19 @@ function App() {
   }, []);
 
   return (
-    <div className="bg-dark-bg text-dark-text min-h-screen">
-      <header className="h-24 bg-dark-elements flex justify-between items-center px-4 mb-8">
+    <Layout>
+      <Header>
         <Logo />
         <ThemeSwitch />
-      </header>
-      <main className="px-4">
+      </Header>
+
+      <Main>
         {selectedCountry ? (
           <CountryDetails
             country={selectedCountry}
             countries={countries}
             onSelectedCountry={setSelectedCountry}
+            formatNumber={formatNumber}
           />
         ) : (
           <>
@@ -76,12 +86,13 @@ function App() {
                 countries={countries}
                 filteredCountries={filteredCountries}
                 onSelectedCountry={setSelectedCountry}
+                formatNumber={formatNumber}
               />
             )}
           </>
         )}
-      </main>
-    </div>
+      </Main>
+    </Layout>
   );
 }
 
