@@ -40,7 +40,6 @@ function App() {
         const res = await fetch("https://restcountries.com/v3.1/all");
         const data = await res.json();
         setCountries(data);
-        console.log(data);
       } catch (err) {
         console.error(err);
       } finally {
@@ -57,23 +56,30 @@ function App() {
         <ThemeSwitch />
       </header>
       <main className="px-4">
-        {selectedCountry && <CountryDetails />}
+        {selectedCountry ? (
+          <CountryDetails
+            country={selectedCountry}
+            countries={countries}
+            onSelectedCountry={setSelectedCountry}
+          />
+        ) : (
+          <>
+            <Filters>
+              <Search query={query} onQuery={setQuery} />
+              <Regions region={region} onRegion={setRegion} />
+            </Filters>
 
-        <>
-          <Filters>
-            <Search query={query} onQuery={setQuery} />
-            <Regions region={region} onRegion={setRegion} />
-          </Filters>
-
-          {isLoading ? (
-            <Loader />
-          ) : (
-            <CountryList
-              countries={countries}
-              filteredCountries={filteredCountries}
-            />
-          )}
-        </>
+            {isLoading ? (
+              <Loader />
+            ) : (
+              <CountryList
+                countries={countries}
+                filteredCountries={filteredCountries}
+                onSelectedCountry={setSelectedCountry}
+              />
+            )}
+          </>
+        )}
       </main>
     </div>
   );

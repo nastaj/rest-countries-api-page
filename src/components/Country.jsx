@@ -1,4 +1,4 @@
-function Country({ country }) {
+function Country({ country, onSelectedCountry }) {
   const {
     name: { common: name },
     population,
@@ -8,7 +8,10 @@ function Country({ country }) {
   } = country;
 
   return (
-    <div className="bg-dark-elements rounded-md mb-8">
+    <div
+      className="bg-dark-elements rounded-md mb-8 cursor-pointer"
+      onClick={() => onSelectedCountry(country)}
+    >
       <img src={flag.svg} alt={flag.alt} className="rounded-t-md" />
 
       <section className="px-6 pt-8 pb-6">
