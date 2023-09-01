@@ -1,21 +1,17 @@
-import { useState } from "react";
-
-function Regions() {
-  const [region, setRegion] = useState("");
-
+function Regions({ region, onRegion }) {
   return (
     <>
       <select
         className="bg-dark-elements px-6 py-3 rounded-md"
         value={region}
-        onChange={(e) => setRegion(e.target.value)}
+        onChange={(e) => onRegion(e.target.value)}
       >
         <option value="">Filter by Region</option>
-        <option value="africa">Africa</option>
-        <option value="america">America</option>
-        <option value="asia">Asia</option>
-        <option value="europe">Europe</option>
-        <option value="oceania">Oceania</option>
+        <option value="Africa">Africa</option>
+        <option value="Americas">America</option>
+        <option value="Asia">Asia</option>
+        <option value="Europe">Europe</option>
+        <option value="Oceania">Oceania</option>
       </select>
     </>
   );

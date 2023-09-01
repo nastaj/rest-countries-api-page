@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
-function Search() {
+function Search({ query, onQuery }) {
   return (
     <div className="relative mb-8">
       <FontAwesomeIcon
@@ -13,6 +13,8 @@ function Search() {
         type="search"
         placeholder="Search for a country..."
         className="bg-dark-elements px-16 py-3 w-full rounded-md placeholder:text-dark-text"
+        value={query}
+        onChange={(e) => onQuery(e.target.value)}
       />
     </div>
   );

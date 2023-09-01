@@ -13,6 +13,25 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [countries, setCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState(null);
+  const [query, setQuery] = useState("");
+  const [region, setRegion] = useState("");
+
+  const filteredCountries = countries.filter((country) => {
+    if (region && !query) {
+      return country.region === region;
+    }
+
+    if (query && !region) {
+      return country.name.common.toLowerCase().includes(query.toLowerCase());
+    }
+
+    if (region && query) {
+      return (
+        country.region === region &&
+        country.name.common.toLowerCase().includes(query.toLowerCase())
+      );
+    }
+  });
 
   useEffect(function () {
     async function loadCountries() {
@@ -42,11 +61,18 @@ function App() {
 
         <>
           <Filters>
-            <Search />
-            <Regions />
+            <Search query={query} onQuery={setQuery} />
+            <Regions region={region} onRegion={setRegion} />
           </Filters>
 
-          {isLoading ? <Loader /> : <CountryList countries={countries} />}
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <CountryList
+              countries={countries}
+              filteredCountries={filteredCountries}
+            />
+          )}
         </>
       </main>
     </div>

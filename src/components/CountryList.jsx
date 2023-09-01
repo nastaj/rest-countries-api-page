@@ -1,11 +1,15 @@
 import Country from "./Country";
 
-function CountryList({ countries }) {
+function CountryList({ countries, filteredCountries }) {
   return (
     <div className="px-8">
-      {countries.map((country) => (
-        <Country key={country.cca2} country={country} />
-      ))}
+      {filteredCountries.length > 0
+        ? filteredCountries.map((country) => (
+            <Country key={country.cca2} country={country} />
+          ))
+        : countries.map((country) => (
+            <Country key={country.cca2} country={country} />
+          ))}
     </div>
   );
 }
