@@ -71,6 +71,22 @@ function App() {
     loadCountries();
   }, []);
 
+  useEffect(
+    function () {
+      if (region && !selectedCountry) {
+        document.title = `REST Countries | ${region}`;
+      }
+      if (selectedCountry) {
+        document.title = `REST Countries | ${selectedCountry.name.common}`;
+      }
+
+      return function () {
+        document.title = "REST Countries | World";
+      };
+    },
+    [region, selectedCountry]
+  );
+
   useKey("Escape", () => setQuery(""));
 
   return (
