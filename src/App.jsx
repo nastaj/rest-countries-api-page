@@ -1,4 +1,8 @@
 import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+
+import { useKey } from "./hooks/useKey";
+import { useLocalStorageState } from "./hooks/useLocalStorageState";
 
 import Layout from "./components/Layout";
 import Loader from "./components/Loader";
@@ -11,9 +15,12 @@ import Search from "./components/Search";
 import Regions from "./components/Regions";
 import CountryList from "./components/CountryList";
 import CountryDetails from "./components/CountryDetails";
+import Footer from "./components/Footer";
 
 function App() {
+  const [theme, setTheme] = useLocalStorageState("dark", "theme");
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
   const [countries, setCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [query, setQuery] = useState("");
@@ -45,11 +52,18 @@ function App() {
     async function loadCountries() {
       try {
         setIsLoading(true);
+
         const res = await fetch("https://restcountries.com/v3.1/all");
+        if (!res.ok) {
+          throw new Error(
+            "There was a problem fetching the data. Try again later."
+          );
+        }
+
         const data = await res.json();
         setCountries(data);
       } catch (err) {
-        console.error(err);
+        setError(err.message);
       } finally {
         setIsLoading(false);
       }
@@ -57,41 +71,48 @@ function App() {
     loadCountries();
   }, []);
 
+  useKey("Escape", () => setQuery(""));
+
   return (
-    <Layout>
+    <Layout theme={theme}>
       <Header>
         <Logo />
-        <ThemeSwitch />
+        <ThemeSwitch theme={theme} onTheme={setTheme} />
       </Header>
 
       <Main>
-        {selectedCountry ? (
-          <CountryDetails
-            country={selectedCountry}
-            countries={countries}
-            onSelectedCountry={setSelectedCountry}
-            formatNumber={formatNumber}
-          />
-        ) : (
-          <>
-            <Filters>
-              <Search query={query} onQuery={setQuery} />
-              <Regions region={region} onRegion={setRegion} />
-            </Filters>
-
-            {isLoading ? (
-              <Loader />
-            ) : (
-              <CountryList
+        <AnimatePresence>
+          {selectedCountry ? (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+              <CountryDetails
+                country={selectedCountry}
                 countries={countries}
-                filteredCountries={filteredCountries}
                 onSelectedCountry={setSelectedCountry}
                 formatNumber={formatNumber}
               />
-            )}
-          </>
-        )}
+            </motion.div>
+          ) : (
+            <>
+              <Filters>
+                <Search query={query} onQuery={setQuery} theme={theme} />
+                <Regions region={region} onRegion={setRegion} />
+              </Filters>
+
+              {isLoading && <Loader />}
+              {error && <p className="text-center">{error}</p>}
+              {!isLoading && !error && (
+                <CountryList
+                  countries={countries}
+                  filteredCountries={filteredCountries}
+                  onSelectedCountry={setSelectedCountry}
+                  formatNumber={formatNumber}
+                />
+              )}
+            </>
+          )}
+        </AnimatePresence>
       </Main>
+      <Footer />
     </Layout>
   );
 }

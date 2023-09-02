@@ -2,7 +2,8 @@ function Regions({ region, onRegion }) {
   return (
     <>
       <select
-        className="bg-dark-elements px-6 py-3 rounded-md lg:w-56"
+        aria-label="regions"
+        className="bg-light-elements dark:bg-dark-elements px-6 py-3 lg:py-4 rounded-md lg:w-56 shadow hover:opacity-75 transition-all cursor-pointer"
         value={region}
         onChange={(e) => onRegion(e.target.value)}
       >

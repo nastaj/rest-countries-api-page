@@ -9,13 +9,13 @@ function Country({ country, onSelectedCountry, formatNumber }) {
 
   return (
     <div
-      className="bg-dark-elements rounded-md mb-8 md:mb-0 cursor-pointer"
+      className="bg-light-elements dark:bg-dark-elements rounded-md mb-8 md:mb-0 cursor-pointer shadow-md h-full"
       onClick={() => onSelectedCountry(country)}
     >
       <figure className="h-1/2">
         <img
           src={flag.svg}
-          alt={flag.alt}
+          alt={flag.alt || "Flag of a country"}
           className="rounded-t-md h-full w-full object-cover"
         />
       </figure>

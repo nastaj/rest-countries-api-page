@@ -1,11 +1,27 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMoon } from "@fortawesome/free-solid-svg-icons";
+import { faMoon as fasMoon } from "@fortawesome/free-solid-svg-icons";
+import { faMoon as farMoon } from "@fortawesome/free-regular-svg-icons";
 
-function ThemeSwitch() {
+function ThemeSwitch({ theme, onTheme }) {
+  function handleClick() {
+    onTheme((theme) => (theme === "dark" ? "light" : "dark"));
+  }
+
   return (
-    <button className="flex items-center gap-2">
-      <FontAwesomeIcon icon={faMoon} style={{ color: "#fff" }} />
-      <span className="font-semibold text-lg">Dark Mode</span>
+    <button
+      type="button"
+      className="flex items-center gap-2"
+      onClick={handleClick}
+    >
+      <FontAwesomeIcon
+        icon={theme === "dark" ? fasMoon : farMoon}
+        style={
+          theme === "dark" ? { color: "#fff" } : { color: "hsl(200, 15%, 8%)" }
+        }
+      />
+      <span className="font-semibold text-lg">
+        {theme === "dark" ? "Light Mode" : "Dark Mode"}
+      </span>
     </button>
   );
 }
