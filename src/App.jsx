@@ -18,7 +18,7 @@ import CountryDetails from "./components/CountryDetails";
 import Footer from "./components/Footer";
 
 function App() {
-  const [theme, setTheme] = useLocalStorageState("dark", "theme");
+  const [theme, setTheme] = useLocalStorageState("light", "theme");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [countries, setCountries] = useState([]);
