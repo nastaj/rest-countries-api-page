@@ -2,7 +2,7 @@ function Regions({ region, onRegion }) {
   return (
     <>
       <select
-        className="bg-dark-elements px-6 py-3 rounded-md"
+        className="bg-dark-elements px-6 py-3 rounded-md lg:w-56"
         value={region}
         onChange={(e) => onRegion(e.target.value)}
       >

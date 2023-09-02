@@ -9,10 +9,16 @@ function Country({ country, onSelectedCountry, formatNumber }) {
 
   return (
     <div
-      className="bg-dark-elements rounded-md mb-8 cursor-pointer"
+      className="bg-dark-elements rounded-md mb-8 md:mb-0 cursor-pointer"
       onClick={() => onSelectedCountry(country)}
     >
-      <img src={flag.svg} alt={flag.alt} className="rounded-t-md" />
+      <figure className="h-1/2">
+        <img
+          src={flag.svg}
+          alt={flag.alt}
+          className="rounded-t-md h-full w-full object-cover"
+        />
+      </figure>
 
       <section className="px-6 pt-8 pb-6">
         <h2 className="mb-4 font-extrabold text-2xl">{name}</h2>
@@ -24,7 +30,8 @@ function Country({ country, onSelectedCountry, formatNumber }) {
           <span className="font-semibold">Region:</span> {region}
         </p>
         <p className="mb-2">
-          <span className="font-semibold">Capital:</span> {capital}
+          <span className="font-semibold">Capital:</span>{" "}
+          {Array.isArray(capital) ? capital.join(", ") : capital}
         </p>
       </section>
     </div>

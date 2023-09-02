@@ -20,6 +20,9 @@ export default {
         homepage: "14px",
         details: "16px",
       },
+      screens: {
+        md: "600px",
+      },
     },
   },
   plugins: [],
